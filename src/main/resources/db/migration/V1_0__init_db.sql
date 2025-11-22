@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS `groups` (
     id     CHAR(36) PRIMARY KEY,
-    number VARCHAR(100) UNIQUE NOT NULL
+    number VARCHAR(100) UNIQUE NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS students (
@@ -8,6 +9,6 @@ CREATE TABLE IF NOT EXISTS students (
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
     middle_name VARCHAR(100) NOT NULL,
-    receipt_date TIMESTAMP NOT NULL,
+    receipt_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     group_id CHAR(36) REFERENCES `groups`(id)
 );

@@ -8,9 +8,13 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,6 +22,7 @@ import java.util.UUID;
 @Table(name = "`groups`")
 @Getter
 @Setter
+@Accessors(chain = true)
 public class GroupEntity {
 
     @Id
@@ -28,5 +33,8 @@ public class GroupEntity {
     private String number;
 
     @OneToMany(mappedBy = "group")
-    private List<StudentEntity> students;
+    private List<StudentEntity> students = new ArrayList<>();
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 }

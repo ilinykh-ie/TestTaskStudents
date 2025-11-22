@@ -1,6 +1,66 @@
-<tbody>
-<tr th:each="student: ${students}">
-    <td th:text="${student.id}"/>
-    <td th:text="${student.name}"/>
-</tr>
-</tbody>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Группа № ${groupNumber}</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+</head>
+<body>
+<div class="container" align="center">
+    <h3>Список студентов</h3>
+    <table style="width:80%" border="1"
+           class="table table-striped table-responsive-md">
+        <thead>
+        <tr>
+            <th>Дата принятия</th>
+            <th>Фамилия</th>
+            <th>Имя</th>
+            <th>Отчество</th>
+            <th>Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="student:${students}">
+            <td th:text="${student.receiptDate}"></td>
+            <td th:text="${student.lastName}"></td>
+            <td th:text="${student.firstName}"></td>
+            <td th:text="${student.middleName}"></td>
+            <td>
+                <form th:action="@{/students/delete}" method="post" style="display:inline;">
+                    <input type="hidden" name="studentId" th:value="${student.id}" />
+                    <input type="hidden" name="groupId" th:value="${groupId}" />
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <form th:action="@{/students}" th:object="${studentCreateDto}" method="post">
+        <div align="left">
+            <label for="lastName">Фамилия:</label>
+            <input type="text" id="lastName" th:field="*{lastName}" required/>
+        </div>
+        <div align="left">
+            <label for="firstName">Имя:</label>
+            <input type="text" id="firstName" th:field="*{firstName}" required/>
+        </div>
+        <div align="left">
+            <label for="middleName">Отчество:</label>
+            <input type="text" id="middleName" th:field="*{middleName}" required/>
+        </div>
+
+        <input type="hidden" name="groupId" th:value="${groupId}"/>
+
+        <div align="left">
+            <button type="submit">Принять нового студента</button>
+        </div>
+    </form>
+
+    <div align="left">
+        <a th:href="@{/groups}" class="btn btn-secondary">Вернуться к списку групп</a>
+    </div>
+</div>
+</body>

@@ -11,8 +11,9 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-public class GroupDto {
-    private UUID id;
-    private String number;
-    private Integer studentsCount;
+public class StudentCreateDto {
+    private String firstName;
+    private String lastName;
+    private String middleName;
+    private UUID groupId;
 }

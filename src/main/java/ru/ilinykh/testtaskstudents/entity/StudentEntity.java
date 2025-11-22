@@ -7,13 +7,21 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
 @Table(name = "students")
+@Getter
+@Setter
+@Accessors(chain = true)
 public class StudentEntity {
 
     @Id
@@ -24,4 +32,13 @@ public class StudentEntity {
     @ManyToOne
     @JoinColumn(name = "group_id")
     private GroupEntity group;
+
+    private String firstName;
+
+    private String lastName;
+
+    private String middleName;
+
+    @CreationTimestamp
+    private LocalDate receiptDate;
 }

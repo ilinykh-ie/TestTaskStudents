@@ -3,10 +3,10 @@ package ru.ilinykh.testtaskstudents.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.ilinykh.testtaskstudents.dto.GroupDto;
 import ru.ilinykh.testtaskstudents.dto.StudentCreateDto;
 import ru.ilinykh.testtaskstudents.dto.StudentDto;
@@ -17,34 +17,31 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("groups")
+@RequestMapping("students")
 @RequiredArgsConstructor
-public class GroupController {
+public class StudentController {
 
-    private final GroupService groupService;
     private final StudentService studentService;
-
-    @GetMapping
-    public String getAllGroups(Model model) {
-        model.addAttribute("groups", groupService.getAllGroups());
-
-        return "groups";
-    }
+    private final GroupService groupService;
 
     @PostMapping
-    public String createGroup(String groupNumber, Model model) {
-        GroupDto group = groupService.createGroup(groupNumber);
+    public String addStudent(@ModelAttribute StudentCreateDto studentCreateDto, Model model) {
+        studentService.addStudent(studentCreateDto);
+
+        GroupDto group = groupService.getGroupById(studentCreateDto.getGroupId());
         addAttributesToModel(model, group);
 
-        return "students";
+        return "redirect:/groups/" + studentCreateDto.getGroupId();
     }
 
-    @GetMapping("/{id}")
-    public String getStudentsByGroupId(Model model, @PathVariable UUID id) {
-        GroupDto group = groupService.getGroupById(id);
+    @PostMapping("/delete")
+    public String deleteStudent(Model model, @RequestParam UUID studentId, @RequestParam UUID groupId) {
+        studentService.deleteStudent(studentId);
+
+        GroupDto group = groupService.getGroupById(groupId);
         addAttributesToModel(model, group);
 
-        return "students";
+        return "redirect:/groups/" + groupId;
     }
 
     private void addAttributesToModel(Model model, GroupDto group) {

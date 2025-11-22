@@ -5,14 +5,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-public class GroupDto {
+public class StudentDto {
     private UUID id;
-    private String number;
-    private Integer studentsCount;
+    private String firstName;
+    private String lastName;
+    private String middleName;
+    private LocalDate receiptDate;
 }
